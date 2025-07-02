@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "buddy"
+version = "0.1.0"
+description = "lil' bank buddy: Your friendly CLI for bank account analysis and reporting."
+authors = [
+    { name = "Your Name" }
+]
+dependencies = [
+    "pandas",
+    "openpyxl",
+    "matplotlib",
+    "plotly",
+    "click"
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+buddy = "report_generator:cli"
