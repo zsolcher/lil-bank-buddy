@@ -1,24 +1,38 @@
 # lil' bank buddy
 
-Your friendly neighborhood buddy for all things bank accounts! This Python project helps you import, analyze, and report on your bank account transactions using CSV exports and SQLite, with a focus on automation and clear, actionable insights.
+Your friendly neighborhood buddy for all things bank accounts! This Python CLI tool helps you import, analyze, and report on your bank account transactions using CSV exports and SQLite, with a focus on automation and clear, actionable insights.
 
 ## Features
-- Import transactions from CSV exports (e.g., USAA, other banks)
-- **Currently supports CSV format only** (the most common and widely available export format)
-- Store and query all data in a local SQLite database
-- Analyze spending, deposits, categories, and trends
-- Generate clear Markdown reports with key stats and insights
-- Modular Python code for easy extension
+- 🏦 Import transactions from CSV exports (USAA, other banks)
+- 📊 Analyze spending patterns, categories, and trends  
+- 📈 Generate comprehensive Markdown reports with charts
+- 💰 Smart expense splitting between multiple people
+- 🧠 Intelligent settlement detection
+- 🚀 Modern CLI with intuitive commands
+- 📁 Clean, maintainable codebase following Python best practices
 
-## Directory Structure
+## Project Structure
 ```
 lil-bank-buddy/
-├── data/                        # All data files (CSV exports, SQLite DB, etc.)
-├── reports/                     # Generated markdown or other reports
-├── src/                         # All Python source code
+├── src/                         # Source code
+│   ├── cli.py                   # Main CLI entry point
+│   ├── __main__.py              # Module execution support
+│   ├── commands/                # CLI command modules
+│   │   ├── import_cmd.py        # Import CSV data
+│   │   ├── report_cmd.py        # Generate reports
+│   │   └── analyze_cmd.py       # Analysis commands
+│   ├── core/                    # Core business logic
+│   │   ├── database.py          # Database operations
+│   │   ├── analysis.py          # Transaction analysis
+│   │   └── report.py            # Report generation
+│   └── utils/                   # Utility functions
+│       └── formatters.py        # Data formatting utilities
+├── data/                        # Data files (CSV exports, SQLite DB)
+├── reports/                     # Generated reports and charts
 ├── tests/                       # Unit tests
-├── requirements.txt
-├── USAA_Transaction_Caching_Guide.md
+├── requirements.txt             # Python dependencies
+├── setup.py                     # Package setup
+├── pyproject.toml              # Modern Python project config
 └── README.md
 ```
 
@@ -54,12 +68,12 @@ This will install all dependencies and make the `buddy` CLI available in your en
 
 ### 6. Import data into the database
 ```zsh
-python src/import_usaa_csvs.py
+buddy import
 ```
 
-### 7. Generate a Markdown report using the CLI
+### 7. Generate a comprehensive Markdown report
 ```zsh
-buddy report
+buddy report --person1-name "Zach" --person2-name "Samantha" --person1-percentage 60
 ```
 
 ### 8. View your report in the `reports/` directory.
@@ -68,14 +82,40 @@ buddy report
 
 ## CLI Usage
 
-After installation, you can use the `buddy` command from anywhere in your environment:
+After installation, you can use the `buddy` command from anywhere:
 
-- Generate a report:
-  ```zsh
-  buddy report
-  ```
+```zsh
+# Get help
+buddy --help
 
-You can extend the CLI with more commands as needed.
+# Import CSV files from bank exports
+buddy import --export-dir data/bank-exports/
+
+# Preview what would be imported without actually importing
+buddy import --dry-run
+
+# Generate a report with custom expense splitting
+buddy report --person1-name "Person A" --person2-name "Person B" --person1-percentage 60
+
+# Analyze account data
+buddy analyze --account both --days 30
+
+# Get help for any command
+buddy import --help
+buddy report --help
+buddy analyze --help
+```
+
+## Alternative Usage (Without Installation)
+
+You can also run the CLI directly without installing:
+
+```zsh
+# Run from the project directory
+python -m src --help
+python -m src import --help
+python -m src report --person1-name "Zach" --person1-percentage 60
+```
 
 ## License
 MIT
