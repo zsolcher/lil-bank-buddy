@@ -64,4 +64,4 @@ coverage.xml
 *.env
 
 # Reports (optional, if you want to ignore generated reports)
-# /reports/
+/reports/
