@@ -71,9 +71,9 @@ This will install all dependencies and make the `buddy` CLI available in your en
 buddy import
 ```
 
-### 7. Generate a comprehensive Markdown report
+### 7. Generate a comprehensive Markdown report for settling balances.
 ```zsh
-buddy report --person1-name "Zach" --person2-name "Samantha" --person1-percentage 60
+buddy report --person1-name "Zelda" --person2-name "Link" --person1-percentage 60
 ```
 
 ### 8. View your report in the `reports/` directory.
