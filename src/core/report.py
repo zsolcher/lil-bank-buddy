@@ -109,7 +109,7 @@ class ReportGenerator:
         person1_name: str = "Person 1", 
         person2_name: str = "Person 2", 
         person1_percentage: int = 50,
-        filename: str = "USAA_Transaction_Report.md"
+        filename: str = "Bank_Transaction_Report.md"
     ) -> str:
         """
         Generate a comprehensive transaction report.
@@ -163,9 +163,9 @@ class ReportGenerator:
     
     def _write_header(self, f):
         """Write the report header."""
-        f.write("# USAA Accounts Transaction Report\n\n")
+        f.write("# Bank Accounts Transaction Report\n\n")
         f.write("## Overview\n")
-        f.write("This report summarizes key insights and statistics for your USAA accounts, ")
+        f.write("This report summarizes key insights and statistics for your bank accounts, ")
         f.write("based on the latest imported transaction data.\n\n---\n\n")
     
     def _write_account_summaries(self, f, cc_summary, checking_summary):

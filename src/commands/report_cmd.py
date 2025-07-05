@@ -10,7 +10,7 @@ from ..core.report import ReportGenerator
               help='Name for person 2') 
 @click.option('--person1-percentage', default=50, type=int, 
               help='Percentage for person 1 (0-100)')
-@click.option('--output', default='reports/USAA_Transaction_Report.md',
+@click.option('--output', default='reports/Bank_Transaction_Report.md',
               help='Output path for the report')
 @click.option('--db-path', default=None,
               help='Path to SQLite database (uses default if not specified)')

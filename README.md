@@ -3,7 +3,7 @@
 Your friendly neighborhood buddy for all things bank accounts! This Python CLI tool helps you import, analyze, and report on your bank account transactions using CSV exports and SQLite, with a focus on automation and clear, actionable insights.
 
 ## Features
-- 🏦 Import transactions from CSV exports (USAA, other banks)
+- 🏦 Import transactions from CSV exports (various banks)
 - 📊 Analyze spending patterns, categories, and trends  
 - 📈 Generate comprehensive Markdown reports with charts
 - 💰 Smart expense splitting between multiple people

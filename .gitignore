@@ -1,6 +1,6 @@
 # Ignore all contents of data except the guide
 /data/*
-!/data/USAA_Transaction_Caching_Guide.md
+!/data/Bank_Transaction_Caching_Guide.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

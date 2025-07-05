@@ -13,7 +13,7 @@ from typing import Any, Generator, List, Optional, Tuple
 class DatabaseManager:
     """Manages database connections and operations for bank transaction data."""
     
-    def __init__(self, db_path: str = 'data/usaa_transactions.db'):
+    def __init__(self, db_path: str = 'data/bank_transactions.db'):
         """
         Initialize the DatabaseManager.
         
