@@ -18,16 +18,20 @@ from ..utils.formatters import format_dollar, dict_to_md_table
 class ReportGenerator:
     """Generates markdown reports with transaction analysis."""
     
-    def __init__(self, output_dir: str = 'reports'):
+    def __init__(self, db_path: str = None, output_dir: str = 'reports'):
         """
         Initialize the ReportGenerator.
         
         Args:
+            db_path: Path to SQLite database (uses default if None)
             output_dir: Directory where reports will be saved
         """
+        from .database import DatabaseManager
+        
         self.output_dir = Path(output_dir)
-        self.analyzer = BankAnalyzer()
-        self.splitter = ExpenseSplitter()
+        self.db_manager = DatabaseManager(db_path) if db_path else DatabaseManager()
+        self.analyzer = BankAnalyzer(self.db_manager)
+        self.splitter = ExpenseSplitter(self.db_manager)
         
         # Ensure output directory exists
         self.output_dir.mkdir(parents=True, exist_ok=True)

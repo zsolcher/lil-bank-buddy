@@ -1,6 +1,6 @@
 """Analysis command for running account analysis."""
 import click
-from ..core.analysis import BankAnalyzer
+from ..core.analysis import BankAnalyzer, ExpenseSplitter
 from ..core.database import DatabaseManager
 
 @click.command()
@@ -24,8 +24,9 @@ def analyze_cmd(account, days, person1_name, person2_name, person1_percentage, d
         return
     
     try:
-        db_manager = DatabaseManager(db_path)
+        db_manager = DatabaseManager(db_path) if db_path else DatabaseManager()
         analyzer = BankAnalyzer(db_manager)
+        splitter = ExpenseSplitter(db_manager)
         
         accounts_to_analyze = []
         if account == 'both':
@@ -65,7 +66,7 @@ def analyze_cmd(account, days, person1_name, person2_name, person1_percentage, d
                 click.echo(f"  Latest Payment: {payments['recent_payments'][0]['date']} - {payments['recent_payments'][0]['amount']} - {payments['recent_payments'][0]['description']}")
             
             # Current balance split
-            balance_split = analyzer.calculate_current_balance_split(
+            balance_split = splitter.calculate_current_balance_split(
                 account_name, person1_percentage, person1_name, person2_name
             )
             click.echo(f"\n💰 CURRENT BALANCE SPLIT:")
@@ -74,7 +75,7 @@ def analyze_cmd(account, days, person1_name, person2_name, person1_percentage, d
             click.echo(f"  {person2_name} Owes: {balance_split['person2_owes']}")
             
             # Expense split since settlement
-            expense_split = analyzer.calculate_expense_split(
+            expense_split = splitter.calculate_expense_split(
                 account_name, person1_percentage, person1_name, person2_name
             )
             click.echo(f"\n🔄 NEW EXPENSES SINCE SETTLEMENT:")

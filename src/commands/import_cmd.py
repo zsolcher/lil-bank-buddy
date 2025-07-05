@@ -30,7 +30,7 @@ COLUMN_MAP = {
               help='Show what would be imported without actually importing')
 def import_cmd(export_dir, db_path, dry_run):
     """Import CSV files from bank exports into the database."""
-    db_manager = DatabaseManager(db_path)
+    db_manager = DatabaseManager(db_path) if db_path else DatabaseManager()
     
     # Check if export directory exists
     if not os.path.exists(export_dir):

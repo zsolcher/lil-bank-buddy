@@ -36,13 +36,26 @@ class BankAnalyzer:
         with self.db.get_connection() as conn:
             df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
         
+        # Import data quality utilities
+        from ..utils.data_quality import get_realistic_date_range, analyze_date_quality
+        
+        # Convert date column to datetime for proper analysis
+        df['date'] = pd.to_datetime(df['date'], errors='coerce')
+        
+        # Get realistic date range (excluding far-future scheduled transactions)
+        min_date, max_date = get_realistic_date_range(df, include_near_future=False)
+        
+        # Analyze data quality for reporting
+        date_quality = analyze_date_quality(df)
+        
         summary = {
             'total_transactions': len(df),
             'total_amount': format_dollar(df['amount'].sum()),
             'largest_transaction': format_dollar(df['amount'].max()),
             'smallest_transaction': format_dollar(df['amount'].min()),
-            'date_range': (df['date'].min(), df['date'].max()),
+            'date_range': (min_date, max_date),
             'most_frequent_category': df['category'].mode()[0] if not df['category'].isnull().all() else None,
+            'data_quality': date_quality,  # Include data quality info for debugging
         }
         return summary
     
@@ -154,6 +167,35 @@ class BankAnalyzer:
             'total_recent_payments': abs(recent_payments['amount'].sum()),
             'payment_count': len(recent_payments)
         }
+    
+    def validate_data_quality(self, table_name: str) -> Dict[str, Any]:
+        """
+        Check for data quality issues in the account data.
+        
+        Args:
+            table_name: Name of the database table
+            
+        Returns:
+            Dictionary containing data quality analysis
+        """
+        with self.db.get_connection() as conn:
+            df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
+        
+        # Convert dates and check for issues
+        df['date'] = pd.to_datetime(df['date'], errors='coerce')
+        
+        today = pd.Timestamp.now()
+        future_dates = df[df['date'] > today]
+        null_dates = df[df['date'].isnull()]
+        
+        return {
+            'total_rows': len(df),
+            'future_dates_count': len(future_dates),
+            'null_dates_count': len(null_dates),
+            'future_dates': future_dates[['date', 'description', 'amount']].head(10).to_dict('records') if len(future_dates) > 0 else [],
+            'date_range_valid': (df['date'].min().strftime('%Y-%m-%d'), df['date'].max().strftime('%Y-%m-%d')) if len(df) > 0 else ('N/A', 'N/A')
+        }
+    
 
 
 class ExpenseSplitter:

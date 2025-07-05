@@ -27,12 +27,12 @@ def report_cmd(person1_name, person2_name, person1_percentage, output, db_path):
     
     try:
         # Generate report
-        report_gen = ReportGenerator(db_path)
+        report_gen = ReportGenerator(db_path=db_path)
         report_gen.generate_report(
             person1_name=person1_name,
             person2_name=person2_name,
             person1_percentage=person1_percentage,
-            output_path=output
+            filename=output
         )
         
         click.echo(f"✓ Report generated at {output}")
